@@ -1,0 +1,52 @@
+# scientific computing
+jax
+POT
+pulp
+cvxpy
+scipy
+numpy
+sympy
+gekko 
+mpmath 
+pandas
+Polars
+awkward
+ortools
+control
+powerlaw
+statsmodels
+
+# 並列
+dask
+async
+thread
+multiprocessing
+
+# fast computing 
+numba
+
+# ipython
+ipython
+ipykernel
+ipywidgets
+pyreadline
+
+# graph
+seaborn
+mpl-tools
+matplotlib
+
+# machine learning
+optuna
+xgboost
+lightgbm
+catboost
+scikit-learn
+scikit-image
+pyclustering
+opencv-python
+opencv-contrib-python
+
+# install jupyter
+notebook
+jupyterlab
