@@ -17,20 +17,20 @@ RUN apt -y install sqlite3 libsqlite3-dev postgresql postgresql-contrib
 # Install Python
 RUN wget https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz && tar zxvf Python-3.12.2.tgz
 WORKDIR Python-3.12.2
-RUN ./configure --prefix=/usr/local/python
+RUN ./configure --prefix=/usr/local/python --enable-optimizations
 #コア数に応じてjxは変更する
 RUN make -s -j4
 RUN make install
 #Pythonのバージョンに応じてシンボリックリンクを張る
 RUN ln -s /usr/local/python/bin/python3 /usr/local/bin/python && ln -s /usr/local/python/bin/pip3.12 /usr/local/bin/pip
-
+RUN pip install numpy
 # Install boost 
 WORKDIR /root
 RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.bz2
 RUN tar --bzip2 -xf boost_1_82_0.tar.bz2
 WORKDIR boost_1_82_0
 RUN ./bootstrap.sh
-RUN ./b2 install --prefix=/usr/local/
+RUN ./b2 install --prefix=/usr/local/ --enable-optimizations
 # symbolic link: for boost compile
 RUN ln -s /usr/local/lib/libboost_python312.a /usr/lib/x86_64-linux-gnu/libboost_python312.a && \
  ln -s /usr/local/lib/libboost_python312.so /usr/lib/x86_64-linux-gnu/libboost_python312.so && \

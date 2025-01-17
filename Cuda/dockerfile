@@ -1,0 +1,42 @@
+FROM nvidia/cuda:12.6.2-cudnn-devel-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt -y update && apt install -y tzdata && apt -y upgrade
+ENV TZ UTC
+
+RUN apt-get update  
+RUN apt-get install -y build-essential bzip2 ca-certificates cmake curl g++ gcc git git-lfs libbz2-dev libdb-dev libffi-dev libgdbm-dev libgl1 liblzma-dev libncurses5-dev libncursesw5-dev libnss3-dev libomp-dev libreadline-dev libsndfile1-dev libsqlite3-dev libssl-dev llvm make nis ntp pkg-config postgresql postgresql-contrib sqlite3 systemd tk-dev uuid-dev wget xz-utils zlib1g zlib1g-dev
+
+RUN wget https://www.python.org/ftp/python/3.12.7/Python-3.12.7.tgz && tar zxvf Python-3.12.7.tgz
+WORKDIR Python-3.12.7
+RUN ./configure --prefix=/usr/local/python --enable-optimizations
+#コア数に応じてjxは変更する
+RUN make -s -j8
+RUN make install
+#Pythonのバージョンに応じてシンボリックリンクを張る
+RUN /usr/local/python/bin/pip3 install numpy jupyterlab notebook
+RUN ln -s /usr/local/python/bin/* /usr/local/bin/
+
+# Install boost 
+WORKDIR /root
+RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.bz2
+RUN tar --bzip2 -xf boost_1_82_0.tar.bz2
+WORKDIR boost_1_82_0
+RUN ./bootstrap.sh
+RUN ./b2 install --prefix=/usr/local/
+# symbolic link: for boost compile
+RUN ln -s /usr/local/lib/libboost_python312.a /usr/lib/x86_64-linux-gnu/libboost_python312.a && \
+ ln -s /usr/local/lib/libboost_python312.so /usr/lib/x86_64-linux-gnu/libboost_python312.so && \
+ ln -s /usr/local/lib/libboost_python312.so.1.82.0 /usr/lib/x86_64-linux-gnu/libboost_python312.so.1.82.0 && \
+ ln -s /usr/local/lib/libboost_numpy312.a /usr/lib/x86_64-linux-gnu/libboost_numpy312.a && \
+ ln -s /usr/local/lib/libboost_numpy312.so /usr/lib/x86_64-linux-gnu/libboost_numpy312.so && \
+ ln -s /usr/local/lib/libboost_numpy312.so.1.82.0 /usr/lib/x86_64-linux-gnu/libboost_numpy312.so.1.82.0
+
+# install packages: non-deeplearning
+COPY ./PythonPackages PythonPackages
+RUN pip3 install -r PythonPackages
+
+# install packages: deeplearning
+COPY ./PythonPackages_Deep PythonPackages_Deep
+RUN pip3 install -r PythonPackages_Deep
+

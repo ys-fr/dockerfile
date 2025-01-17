@@ -25,19 +25,19 @@ RUN make install
 RUN ln -s /usr/local/python/bin/python3 /usr/local/bin/python && ln -s /usr/local/python/bin/pip3.12 /usr/local/bin/pip
 
 # Install boost 
-WORKDIR /root
-RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.bz2
-RUN tar --bzip2 -xf boost_1_82_0.tar.bz2
-WORKDIR boost_1_82_0
-RUN ./bootstrap.sh
-RUN ./b2 install --prefix=/usr/local/
+#WORKDIR /root
+#RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.bz2
+#RUN tar --bzip2 -xf boost_1_82_0.tar.bz2
+#WORKDIR boost_1_82_0
+#RUN ./bootstrap.sh
+#RUN ./b2 install --prefix=/usr/local/
 # symbolic link: for boost compile
-RUN ln -s /usr/local/lib/libboost_python312.a /usr/lib/x86_64-linux-gnu/libboost_python312.a && \
- ln -s /usr/local/lib/libboost_python312.so /usr/lib/x86_64-linux-gnu/libboost_python312.so && \
- ln -s /usr/local/lib/libboost_python312.so.1.82.0 /usr/lib/x86_64-linux-gnu/libboost_python312.so.1.82.0 && \
- ln -s /usr/local/lib/libboost_numpy312.a /usr/lib/x86_64-linux-gnu/libboost_numpy312.a && \
- ln -s /usr/local/lib/libboost_numpy312.so /usr/lib/x86_64-linux-gnu/libboost_numpy312.so && \
- ln -s /usr/local/lib/libboost_numpy312.so.1.82.0 /usr/lib/x86_64-linux-gnu/libboost_numpy312.so.1.82.0
+#RUN ln -s /usr/local/lib/libboost_python312.a /usr/lib/x86_64-linux-gnu/libboost_python312.a && \
+# ln -s /usr/local/lib/libboost_python312.so /usr/lib/x86_64-linux-gnu/libboost_python312.so && \
+# ln -s /usr/local/lib/libboost_python312.so.1.82.0 /usr/lib/x86_64-linux-gnu/libboost_python312.so.1.82.0 && \
+# ln -s /usr/local/lib/libboost_numpy312.a /usr/lib/x86_64-linux-gnu/libboost_numpy312.a && \
+# ln -s /usr/local/lib/libboost_numpy312.so /usr/lib/x86_64-linux-gnu/libboost_numpy312.so && \
+# ln -s /usr/local/lib/libboost_numpy312.so.1.82.0 /usr/lib/x86_64-linux-gnu/libboost_numpy312.so.1.82.0
 
 # Install Python Packages
 

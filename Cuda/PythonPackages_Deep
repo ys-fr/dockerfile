@@ -1,0 +1,16 @@
+# PyTorch
+torch
+torchaudio
+torchvision
+
+# tensorflow
+#tensorflow
+#tf_keras
+
+# jax
+jax[cuda12]
+flax
+
+# keras
+keras
+keras-cv
